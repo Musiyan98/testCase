@@ -7,6 +7,7 @@ const ukraineMobileNumber = [
   "066",
   "095",
   "099",
+  "039",
   "067",
   "068",
   "096",
@@ -15,18 +16,47 @@ const ukraineMobileNumber = [
   "063",
   "073",
   "093",
+  "091",
+  "092",
+  "094",
 ];
+const NUMBERS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 function sendMessage(e) {
   e.preventDefault();
   let phoneForCheck = String(e.currentTarget.elements.input.value);
   let chengePhone = checkAndChengePhone(phoneForCheck);
+  // let chengePhone = deleteAllNedless(phoneForCheck);
   outputEl.textContent = `Ви хотіли отримати номер ${chengePhone}`;
+}
+
+function deleteAllNedless(str) {
+  let checkStr = String(str);
+  let strWithoutSpace = "";
+  let clearStr = "";
+
+  for (let i = 0; i < checkStr.length; i++) {
+    if (checkStr[i] !== " ") {
+      strWithoutSpace += checkStr[i];
+    }
+  }
+
+  if (strWithoutSpace[0] === "+") {
+    clearStr = "+";
+  }
+
+  for (let i = 0; i < strWithoutSpace.length; i++) {
+    if (NUMBERS.includes(strWithoutSpace[i])) {
+      clearStr += strWithoutSpace[i];
+    }
+  }
+  console.log("номер без зайвих символів", clearStr);
+  return clearStr;
 }
 
 function checkAndChengePhone(phone) {
   let resultPhone;
-  phoneNumber = String(phone).trim();
+  phoneNumber = deleteAllNedless(phone);
   let numberLength = phoneNumber.length;
   switch (numberLength) {
     case 13:
